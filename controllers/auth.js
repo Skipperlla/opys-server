@@ -10,6 +10,7 @@ import { emailLengthCheck } from "../scripts/helpers/pattern.js";
 import { uploadFileReq } from "../scripts/helpers/multer.js";
 import sendEmail from "../scripts/helpers/mailSender.js";
 import { v4 } from "uuid";
+import randomString from "randomstring";
 
 const Register = AsyncErrorHandler(async (req, res, next) => {
   let data = req.body;
@@ -58,16 +59,14 @@ const forgotPassword = AsyncErrorHandler(async (req, res, next) => {
       )
     );
   }
-  const resetPasswordToken = user.getResetPasswordToken();
-
-  await user.save();
-
-  const resetPasswordUrl = `http://localhost:5000/api/v1/auth/resetPassword?resetPasswordToken=${resetPasswordToken}`;
+  user.password = randomString.generate({
+    length: 6,
+    charset: "alphabetic",
+  });
 
   const emailTemplate = `
         <h3>Reset Your Password</h3>
-        <p>This <a href = '${resetPasswordUrl}' target = '_blank'>link</a>  will expire in 1 hour</p>
-
+        <p>Yeni şifreniz => ${user.password}</p>
     `;
 
   try {
@@ -77,17 +76,13 @@ const forgotPassword = AsyncErrorHandler(async (req, res, next) => {
       subject: "Parola Sıfırlama",
       html: emailTemplate,
     });
+    await user.save();
     return res.status(httpStatus.OK).json({
       success: true,
       message: "E-mail gönderildi",
       data: user,
     });
   } catch (err) {
-    user.resetPasswordToken = undefined;
-    user.resetPasswordExpire = undefined;
-
-    user.save();
-
     return next(
       new CustomError("E-posta gönderilemedi", httpStatus.INTERNAL_SERVER_ERROR)
     );

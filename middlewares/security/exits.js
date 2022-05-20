@@ -150,6 +150,7 @@ const emailLength = AsyncErrorHandler(async (req, res, next) => {
 
 const taskExist = AsyncErrorHandler(async (req, res, next) => {
   const task = await Task.findById(req.params.taskId);
+  console.log(req.params)
   if (!task) {
     return next(new CustomError("Task bulunamadı.", httpStatus.NOT_FOUND));
   }

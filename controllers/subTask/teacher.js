@@ -91,6 +91,7 @@ const singleSubTask = AsyncErrorHandler(async (req, res, next) => {
 });
 const allSubTasks = AsyncErrorHandler(async (req, res, next) => {
   const { groupCode, taskId } = req.params;
+  console.log(req.params);
   const { id } = req.user;
   let subTasks;
   if (groupCode) {
@@ -98,6 +99,7 @@ const allSubTasks = AsyncErrorHandler(async (req, res, next) => {
     subTasks = await SubTask.find({
       assigner: id,
       group: _id,
+      task: taskId,
     })
       .populate("assignTo assigner")
       .populate("group");
