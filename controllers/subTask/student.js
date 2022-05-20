@@ -122,7 +122,7 @@ const allSubTasks = AsyncErrorHandler(async (req, res, next) => {
     count: subTasks.length,
   });
 });
-const gitendSubTask = AsyncErrorHandler(async (req, res, next) => {
+const endSubTask = AsyncErrorHandler(async (req, res, next) => {
   const { subTaskId, groupCode } = req.params;
   const group = await Group.findOne({ groupCode });
   const subTask = await SubTask.findByIdAndUpdate(
