@@ -26,6 +26,16 @@ const taskEndCheck = AsyncErrorHandler(async (req, res, next) => {
   }
   next();
 });
+const subTaskEndCheck = AsyncErrorHandler(async (req, res, next) => {
+  const subTask = await SubTask.findById(req.params.subTaskId);
+
+  if (subTask.status === status.Completed) {
+    return next(
+      new CustomError("Bu alt görev tamamlanmış.", httpStatus.BAD_REQUEST)
+    );
+  }
+  next();
+});
 const postExist = AsyncErrorHandler(async (req, res, next) => {
   const post = await Post.findById(req.params.postId);
   if (!post) {
@@ -139,11 +149,7 @@ const emailLength = AsyncErrorHandler(async (req, res, next) => {
 });
 
 const taskExist = AsyncErrorHandler(async (req, res, next) => {
-  const { _id } = await Group.findOne({ groupCode: req.params.groupCode });
-  const task = await Task.findOne({
-    _id: req.params.taskId,
-    group: _id,
-  });
+  const task = await Task.findById(req.params.taskId);
   if (!task) {
     return next(new CustomError("Task bulunamadı.", httpStatus.NOT_FOUND));
   }
@@ -180,4 +186,5 @@ export {
   taskExist,
   subTaskExist,
   questionExist,
+  subTaskEndCheck,
 };

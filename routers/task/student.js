@@ -4,6 +4,7 @@ import {
   uploadFiles,
   allTasks,
   endTask,
+  getAllTaskLeader,
 } from "../../controllers/task/student.js";
 import fileUpload from "../../middlewares/fileUpload.js";
 
@@ -26,5 +27,5 @@ router.post(
 );
 router.get("/Tasks", allTasks);
 router.get("/End/:groupCode/:taskId", endTask);
-
+router.get("/Tasks/Leader/:groupCode", getAllTaskLeader);
 export default router;

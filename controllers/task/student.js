@@ -14,7 +14,15 @@ const singleTask = AsyncErrorHandler(async (req, res, next) => {
   const { _id } = await Group.findOne({ groupCode });
   const task = await Task.findOne({
     group: _id,
-    assignTo: req.user.id,
+    $or: [
+      {
+        assignTo: req.user.id,
+      },
+      {
+        assigner: req.user.id,
+      },
+    ],
+
     _id: taskId,
   })
     .populate("assignTo assigner")
@@ -100,6 +108,7 @@ const uploadFiles = AsyncErrorHandler(async (req, res, next) => {
 });
 const allTasks = AsyncErrorHandler(async (req, res, next) => {
   const { groupCode } = req.query;
+  console.log(req.query);
   let tasks;
   if (groupCode) {
     const { _id } = await Group.findOne({ groupCode });
@@ -157,4 +166,19 @@ const endTask = AsyncErrorHandler(async (req, res, next) => {
     message: "Görev tamamlandı.",
   });
 });
-export { singleTask, uploadFiles, allTasks, endTask };
+const getAllTaskLeader = AsyncErrorHandler(async (req, res, next) => {
+  const { groupCode } = req.params;
+  const { _id } = await Group.findOne({ groupCode });
+  const tasks = await Task.find({
+    group: _id,
+    assigner: req.user.id,
+  })
+    .populate("assignTo assigner")
+    .populate("group");
+  return res.status(httpStatus.OK).json({
+    success: true,
+    data: tasks,
+    count: tasks.length,
+  });
+});
+export { singleTask, uploadFiles, allTasks, endTask, getAllTaskLeader };

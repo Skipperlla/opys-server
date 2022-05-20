@@ -13,17 +13,18 @@ import {
   subTaskExist,
   taskExist,
   taskEndCheck,
+  subTaskEndCheck,
 } from "../middlewares/security/exits.js";
 const router = express.Router();
-const globalMiddleware = [groupExist, taskExist, taskEndCheck];
+const globalMiddleware = [groupExist, taskExist];
 router.post(
   "/Create/Task/:groupCode/:taskId",
-  globalMiddleware,
+  [...globalMiddleware, taskEndCheck],
   createQuestionTask
 );
 router.post(
   "/Create/SubTask/:groupCode/:subTaskId",
-  [groupExist, subTaskExist],
+  [groupExist, subTaskExist, subTaskEndCheck],
   createQuestionSubTask
 );
 router.delete(

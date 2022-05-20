@@ -12,6 +12,7 @@ import {
   studentExist,
   subTaskExist,
   taskExist,
+  subTaskEndCheck,
 } from "../../middlewares/security/exits.js";
 import validate from "../../middlewares/validate.js";
 import { CreateGroup } from "../../validations/Group.js";
@@ -25,11 +26,14 @@ router.get(
 );
 router.post(
   "/Upload/:groupCode/:taskId/:subTaskId",
-  globalMiddleware,
-  fileUpload.array("uploads", 10),
+  [...globalMiddleware, subTaskEndCheck, fileUpload.array("uploads", 10)],
   uploadFiles
 );
 router.get("/SubTasks", allSubTasks);
-router.get("/End/:groupCode/:taskId/:subTaskId", globalMiddleware, endSubTask);
+router.get(
+  "/End/:groupCode/:taskId/:subTaskId",
+  [...globalMiddleware, subTaskEndCheck],
+  endSubTask
+);
 
 export default router;

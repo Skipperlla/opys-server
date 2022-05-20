@@ -15,13 +15,20 @@ import {
   studentExist,
   subTaskExist,
   taskExist,
+  taskEndCheck,
 } from "../../middlewares/security/exits.js";
 const router = express.Router();
-const globalMiddleware = [groupExist, taskExist, subTaskExist, studentExist];
+const globalMiddleware = [
+  groupExist,
+  taskExist,
+  subTaskExist,
+  studentExist,
+  taskEndCheck,
+];
 
 router.post(
   "/Create/:groupCode/:taskId/:studentId",
-  [groupExist, taskExist, studentExist],
+  [groupExist, taskExist, studentExist, taskEndCheck],
   create
 );
 router.delete(

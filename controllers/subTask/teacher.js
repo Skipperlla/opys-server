@@ -84,7 +84,6 @@ const singleSubTask = AsyncErrorHandler(async (req, res, next) => {
   const subTask = await SubTask.findById(req.params.subTaskId).populate(
     "assignTo assigner"
   );
-  console.log("req.params", req.params);
   return res.status(httpStatus.OK).json({
     success: true,
     data: subTask,
