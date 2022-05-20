@@ -49,7 +49,7 @@ router.get(
   singleTask
 );
 router.get("/Tasks", allTasks);
-router.put(
+router.post(
   "/Update/:groupCode/:taskId",
   [
     groupExist,
