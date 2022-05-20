@@ -83,6 +83,7 @@ const forgotPassword = AsyncErrorHandler(async (req, res, next) => {
       data: user,
     });
   } catch (err) {
+    console.log(err);
     return next(
       new CustomError("E-posta gönderilemedi", httpStatus.INTERNAL_SERVER_ERROR)
     );
