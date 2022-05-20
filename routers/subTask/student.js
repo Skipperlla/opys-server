@@ -17,7 +17,13 @@ import {
 import validate from "../../middlewares/validate.js";
 import { CreateGroup } from "../../validations/Group.js";
 const router = express.Router();
-const globalMiddleware = [groupExist, taskExist, subTaskExist, studentExist];
+const globalMiddleware = [
+  groupExist,
+  taskExist,
+  subTaskExist,
+  subTaskEndCheck,
+  studentExist,
+];
 
 router.get(
   "/Single/:groupCode/:taskId/:subTaskId",
@@ -26,14 +32,10 @@ router.get(
 );
 router.post(
   "/Upload/:groupCode/:taskId/:subTaskId",
-  [...globalMiddleware, subTaskEndCheck, fileUpload.array("uploads", 10)],
+  [...globalMiddleware, fileUpload.array("uploads", 10)],
   uploadFiles
 );
 router.get("/SubTasks", allSubTasks);
-router.get(
-  "/End/:groupCode/:taskId/:subTaskId",
-  [...globalMiddleware, subTaskEndCheck],
-  endSubTask
-);
+router.get("/End/:groupCode/:taskId/:subTaskId", globalMiddleware, endSubTask);
 
 export default router;

@@ -2,6 +2,7 @@ import Mongoose from "mongoose";
 
 import { status } from "../scripts/helpers/querys.js";
 import Question from "./Question.js";
+import SubTask from "./SubTask.js";
 const Schema = Mongoose.Schema;
 const ObjectId = Schema.ObjectId;
 const TaskSchema = new Schema(
