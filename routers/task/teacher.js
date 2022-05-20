@@ -50,8 +50,15 @@ router.get(
 );
 router.get("/Tasks", allTasks);
 router.put(
-  "/Update/:groupCode/:taskId/:studentId",
-  [...globalMiddleware, ownerAccessTask, validate(UpdateTask)],
+  "/Update/:groupCode/:taskId",
+  [
+    groupExist,
+    taskExist,
+    taskEndCheck,
+    teacherOwnerAccess,
+    ownerAccessTask,
+    validate(UpdateTask),
+  ],
   update
 );
 router.get("/End/:groupCode/:taskId/:studentId", globalMiddleware, endTask);

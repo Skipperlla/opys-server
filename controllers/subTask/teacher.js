@@ -36,7 +36,7 @@ const create = AsyncErrorHandler(async (req, res, next) => {
         httpStatus.NOT_FOUND
       )
     );
-  } else if (Date.now() > data.deadline) {
+  } else if (Date.now() >= data.deadline) {
     return next(
       new CustomError(
         "Görev bitiş tarihi bugünden önce olamaz.",
@@ -131,7 +131,7 @@ const update = AsyncErrorHandler(async (req, res, next) => {
         httpStatus.BAD_REQUEST
       )
     );
-  } else if (Date.now() > data.deadline) {
+  } else if (Date.now() >= data.deadline) {
     return next(
       new CustomError(
         "Görev bitiş tarihi bugünden önce olamaz.",
