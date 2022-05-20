@@ -73,7 +73,6 @@ const removeTask = AsyncErrorHandler(async (req, res, next) => {
   await task.remove();
   return res.status(httpStatus.OK).json({
     success: true,
-    data: data,
     message: "Görev başarıyla silindi.",
   });
 });
