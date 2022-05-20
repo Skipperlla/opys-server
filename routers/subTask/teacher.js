@@ -46,11 +46,7 @@ router.get(
   globalMiddleware,
   singleSubTask
 );
-router.get(
-  "/SubTasks/:groupCode/:taskId",
-  [groupExist, taskExist],
-  allSubTasks
-);
+router.get("/SubTasks", allSubTasks);
 router.post(
   "/Update/:groupCode/:taskId/:subTaskId/:studentId",
   [...globalMiddleware, ownerAccessTask],
