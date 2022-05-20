@@ -12,9 +12,10 @@ import {
   questionExist,
   subTaskExist,
   taskExist,
+  taskEndCheck,
 } from "../middlewares/security/exits.js";
 const router = express.Router();
-const globalMiddleware = [groupExist, taskExist];
+const globalMiddleware = [groupExist, taskExist, taskEndCheck];
 router.post(
   "/Create/Task/:groupCode/:taskId",
   globalMiddleware,
