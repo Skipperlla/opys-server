@@ -51,14 +51,14 @@ const Login = AsyncErrorHandler(async (req, res, next) => {
 const forgotPassword = AsyncErrorHandler(async (req, res, next) => {
   const { email } = req.body;
   const user = await User.findOne({ email });
-  if (!user) {
-    return next(
-      new CustomError(
-        "Bu e-postaya ait bir kullanıcı bulunamadı.",
-        httpStatus.NOT_FOUND
-      )
-    );
-  }
+  // if (!user) {
+  //   return next(
+  //     new CustomError(
+  //       "Bu e-postaya ait bir kullanıcı bulunamadı.",
+  //       httpStatus.NOT_FOUND
+  //     )
+  //   );
+  // }
   user.password = randomString.generate({
     length: 6,
     charset: "alphabetic",
@@ -85,7 +85,7 @@ const forgotPassword = AsyncErrorHandler(async (req, res, next) => {
   } catch (err) {
     console.log(err);
     return next(
-      new CustomError("E-posta gönderilemedi", httpStatus.INTERNAL_SERVER_ERROR)
+      new CustomError(err, httpStatus.INTERNAL_SERVER_ERROR)
     );
   }
 });
