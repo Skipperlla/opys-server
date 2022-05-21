@@ -116,13 +116,13 @@ const allTasks = AsyncErrorHandler(async (req, res, next) => {
       assignTo: req.user.id,
       group: _id,
     })
-      .populate("assignTo assigner")
+      .populate("assignTo assigner subTasks")
       .populate("group");
   } else {
     tasks = await Task.find({
       assignTo: req.user.id,
     })
-      .populate("assignTo assigner")
+      .populate("assignTo assigner subTasks")
       .populate("group");
   }
   return res.status(httpStatus.OK).json({

@@ -104,6 +104,7 @@ const allTasks = AsyncErrorHandler(async (req, res, next) => {
     })
       .populate("assignTo assigner")
       .populate("group")
+      .populate("subTasks")
       .sort({ createdAt: -1 });
   } else {
     tasks = await Task.find({
@@ -111,6 +112,7 @@ const allTasks = AsyncErrorHandler(async (req, res, next) => {
     })
       .populate("assignTo assigner")
       .populate("group")
+      .populate("subTasks")
       .sort({ createdAt: -1 });
   }
   return res.status(httpStatus.OK).json({
