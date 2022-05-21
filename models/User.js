@@ -27,7 +27,7 @@ const UserSchema = new Schema(
     avatar: {
       type: Object,
       default: {
-        Location: "https://saps.fra1.digitaloceanspaces.com/default_user.png",
+        Location: "https://opys.fra1.digitaloceanspaces.com/default_user.jpg",
       },
     },
     resetPasswordToken: String,
