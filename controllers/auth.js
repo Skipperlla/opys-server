@@ -26,9 +26,9 @@ const Register = AsyncErrorHandler(async (req, res, next) => {
       req.file,
       `/Profile Pictures`
     );
-    data = { ...data, avatar: { Location, Key }, uuid: v4() };
+    data = { ...data, avatar: { Location, Key } };
   }
-  const user = await User.create(data);
+  const user = await User.create({ ...data, uuid: v4() });
   sendTokenClient(user, req, res);
 });
 const Login = AsyncErrorHandler(async (req, res, next) => {
@@ -84,9 +84,7 @@ const forgotPassword = AsyncErrorHandler(async (req, res, next) => {
     });
   } catch (err) {
     console.log(err);
-    return next(
-      new CustomError(err, httpStatus.INTERNAL_SERVER_ERROR)
-    );
+    return next(new CustomError(err, httpStatus.INTERNAL_SERVER_ERROR));
   }
 });
 
